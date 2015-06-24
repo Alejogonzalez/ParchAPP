@@ -37,6 +37,10 @@
             android:name=".siguiente"
             android:label="@string/title_activity_siguiente" >
         </activity>
+        <activity
+            android:name=".siguiente2"
+            android:label="@string/title_activity_siguiente2" >
+        </activity>
     </application>
 
 </manifest>

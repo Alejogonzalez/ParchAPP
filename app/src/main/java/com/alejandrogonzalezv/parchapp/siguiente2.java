@@ -1,8 +1,6 @@
 package com.alejandrogonzalezv.parchapp;
 
-
 import android.content.Intent;
-import android.service.textservice.SpellCheckerService;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -27,13 +25,12 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
 
-
-public class MainActivity extends ActionBarActivity {
+public class siguiente2 extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_siguiente2);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new PlaceholderFragment())
@@ -45,7 +42,7 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_siguiente2, menu);
         return true;
     }
 
@@ -53,7 +50,8 @@ public class MainActivity extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+        // as you specify a parent activity in AndroidM
+        // anifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -96,7 +94,7 @@ public class MainActivity extends ActionBarActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             FacebookSdk.sdkInitialize(getActivity().getApplicationContext());
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+            View rootView = inflater.inflate(R.layout.fragment_siguiente2, container, false);
 
 
             callbackManager = CallbackManager.Factory.create();
@@ -135,8 +133,8 @@ public class MainActivity extends ActionBarActivity {
         public void onActivityResult(int requestCode, int resultCode, Intent data) {
             super.onActivityResult(requestCode, resultCode, data);
             callbackManager.onActivityResult(requestCode, resultCode, data);
-            if (resultCode == RESULT_OK) {
-                Intent t = new Intent(getActivity(),siguiente2.class);
+            if (resultCode != RESULT_OK) {
+                Intent t = new Intent(getActivity(),MainActivity.class);
                 startActivity(t);
             }
 
@@ -152,8 +150,8 @@ public class MainActivity extends ActionBarActivity {
         public void onResume() {
             super.onResume();
             Profile profile = Profile.getCurrentProfile();
-            if (profile !=null){
-                Intent t = new Intent(getActivity(),siguiente2.class);
+            if (profile==null){
+                Intent t = new Intent(getActivity(),MainActivity.class);
                 startActivity(t);
             }
             displayMessage(profile);
@@ -164,10 +162,12 @@ public class MainActivity extends ActionBarActivity {
 
         private void displayMessage(Profile profile){
             if(profile != null){
-                textView.setText(profile.getName());
+
 
             }
         }
 
     }
 }
+
+
