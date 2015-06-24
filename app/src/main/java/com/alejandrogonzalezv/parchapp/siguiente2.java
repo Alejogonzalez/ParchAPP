@@ -21,6 +21,7 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.Profile;
 import com.facebook.ProfileTracker;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
@@ -70,8 +71,9 @@ public class siguiente2 extends ActionBarActivity {
         public PlaceholderFragment() {
         }
         private CallbackManager callbackManager;
+        private LoginManager loginmanager;
         private TextView textView;
-
+        private TextView txdata;
         private AccessTokenTracker accessTokenTracker;
         private ProfileTracker profileTracker;
         private FacebookCallback<LoginResult> callback = new FacebookCallback<LoginResult>() {
@@ -125,6 +127,14 @@ public class siguiente2 extends ActionBarActivity {
             loginButton.setReadPermissions("user_friends");
             loginButton.setFragment(this);
             loginButton.registerCallback(callbackManager, callback);
+
+            loginButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+
         }
 
 
@@ -133,10 +143,11 @@ public class siguiente2 extends ActionBarActivity {
         public void onActivityResult(int requestCode, int resultCode, Intent data) {
             super.onActivityResult(requestCode, resultCode, data);
             callbackManager.onActivityResult(requestCode, resultCode, data);
-            if (resultCode != RESULT_OK) {
+
+            /*if (data == null) {
                 Intent t = new Intent(getActivity(),MainActivity.class);
                 startActivity(t);
-            }
+            }*/
 
 
         }
