@@ -5,14 +5,22 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
@@ -25,9 +33,16 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 
-public class siguiente2 extends ActionBarActivity {
+import java.util.HashMap;
+import java.util.Map;
 
+
+public class siguiente2 extends ActionBarActivity implements View.OnClickListener {
+    TextView txvtest;
+    TextView txvtest2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +52,11 @@ public class siguiente2 extends ActionBarActivity {
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
+        txvtest = (TextView) findViewById(R.id.txv);
+        txvtest2 = (TextView) findViewById(R.id.txv2);
+        Button btnenviar = (Button) findViewById(R.id.btnenv);
+        btnenviar.setOnClickListener(this);
+
     }
 
 
@@ -61,6 +81,45 @@ public class siguiente2 extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId()==R.id.btnenv){
+            EditText num = (EditText) findViewById(R.id.ednum);
+            enviarnum(num.getText().toString());
+        }
+    }
+    public static String URL = "http://parchapp.esy.es/prueba.php";
+    private void enviarnum(String numero) {
+        Map<String, String> params3 = new HashMap<String, String>();
+        params3.put("numero", numero);
+        params3.put("nombre", "Alekoz");
+        final JSONObject Jason=new JSONObject(params3);
+
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.POST,URL,Jason,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            String resp1 = response.getString("resp1");
+                            String resp2 = response.getString("resp2");
+                            txvtest.setText(resp1);
+                            txvtest2.setText(resp2);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener()
+        {       @Override
+                public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), "Error en peticion Json", Toast.LENGTH_SHORT).show();
+            }
+        }
+        );
+
+        MySingleton.getInstance(this).addToRequestQueue(getRequest);
+
     }
 
     /**
